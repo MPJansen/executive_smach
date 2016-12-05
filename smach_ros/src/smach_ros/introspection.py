@@ -232,7 +232,7 @@ class ContainerProxy():
                     path,
                     self._container.get_initial_states(),
                     self._container.get_active_states(),
-                    pickle.dumps(self._container.userdata._data,2),
+                    pickle.dumps(data_dict,2),
                     info_str)
             # Publish message
             self._status_pub.publish(state_msg)
