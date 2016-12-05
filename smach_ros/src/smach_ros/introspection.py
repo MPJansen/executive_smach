@@ -217,6 +217,16 @@ class ContainerProxy():
             #print str(structure_msg)
             # Construct status message
             #print self._container.get_active_states()
+            # Guard against non-pickleable user data
+            data_dict = {}
+            for key, value in self._container.userdata._data.items():
+                try:
+                    data = pickle.dumps({key: value}, 2)
+                    data_dict[key] = value
+                except:
+                    #rospy.logwarn('Unable to Pickle user data')
+                    data_dict[key] = 'unknown' 
+            data = pickle.dumps(data_dict, 2)
             state_msg = SmachContainerStatus(
                     Header(stamp = rospy.Time.now()),
                     path,
